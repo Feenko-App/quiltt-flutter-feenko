@@ -15,6 +15,7 @@ class QuilttConnector {
   late String connectionId;
   final _WebViewPage _webViewPage = _WebViewPage();
   final WebViewController controller = WebViewController();
+  Widget? toolbar;
 
   /// Pass token to authenticate, authenticate through UI if token is absent
   void authenticate(String token) {
@@ -43,6 +44,7 @@ class QuilttConnector {
     connectorId = config.connectorId;
     _webViewPage._init(controller, context, config,
         token: sessionToken,
+        toolbar: toolbar,
         onEvent: onEvent,
         onExit: onExit,
         onExitSuccess: onExitSuccess,
@@ -68,6 +70,7 @@ class QuilttConnector {
     connectionId = config.connectionId!;
     _webViewPage._init(controller, context, config,
         token: sessionToken,
+        toolbar: toolbar,
         onEvent: onEvent,
         onExit: onExit,
         onExitSuccess: onExitSuccess,
@@ -86,6 +89,7 @@ class _WebViewPage {
   late BuildContext context;
   late QuilttConnectorConfiguration config;
   String? token;
+  Widget? toolbar;
   bool _isInitialized = false;
 
   Function(ConnectorSDKOnEventCallback event)? onEvent;
@@ -96,6 +100,7 @@ class _WebViewPage {
 
   _init(controller, context, QuilttConnectorConfiguration config,
       {String? token,
+      Widget? toolbar,
       Function(ConnectorSDKOnEventCallback event)? onEvent,
       Function(ConnectorSDKOnEventExitCallback event)? onExit,
       Function(ConnectorSDKOnExitSuccessCallback event)? onExitSuccess,
@@ -104,6 +109,7 @@ class _WebViewPage {
     this.controller = controller;
     this.context = context;
     this.token = token;
+    this.toolbar = toolbar;
     this.config = config;
     this.onEvent = onEvent;
     this.onExit = onExit;
@@ -331,6 +337,64 @@ class _WebViewPage {
     }
 
     return Scaffold(
-        body: SafeArea(child: WebViewWidget(controller: controller)));
+      body: SafeArea(
+        child: Stack(
+          children: [
+            WebViewWidget(controller: controller),
+            if (toolbar != null)
+              _FeenkoToolbar(
+                controller: controller,
+                child: toolbar!,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FeenkoToolbar extends StatefulWidget {
+  final WebViewController controller;
+  final Widget child;
+
+  const _FeenkoToolbar({
+    required this.controller,
+    required this.child,
+  });
+
+  @override
+  State<_FeenkoToolbar> createState() => _FeenkoToolbarState();
+}
+
+class _FeenkoToolbarState extends State<_FeenkoToolbar> {
+  bool _isVisible = true;
+  static const double _scrollThreshold = 50.0; // Show when within 50px of top
+
+  @override
+  void initState() {
+    super.initState();
+    _setupScrollListener();
+  }
+
+  void _setupScrollListener() {
+    widget.controller.setOnScrollPositionChange((position) {
+      final shouldBeVisible = position.y <= _scrollThreshold;
+      if (shouldBeVisible != _isVisible) {
+        setState(() {
+          _isVisible = shouldBeVisible;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      top: _isVisible ? 0 : -48,
+      left: 0,
+      child: widget.child,
+    );
   }
 }

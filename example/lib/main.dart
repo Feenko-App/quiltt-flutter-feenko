@@ -66,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _launchConnector() {
-    String token = "token";
 
     QuilttConnectorConfiguration config = QuilttConnectorConfiguration(
         connectorId: "connectorId",
@@ -75,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     debugPrint(
         '_launchConnector: ${config.connectorId}, $config.oauthRedirectUrl');
     QuilttConnector quilttConnector = QuilttConnector();
-    quilttConnector.authenticate(token);
+    //quilttConnector.authenticate(token);
     quilttConnector.connect(context, config, onEvent: (event) {
       debugPrint("onEvent: ${event.type} ${event.eventMetadata.connectorId}");
     }, onExit: (event) {
