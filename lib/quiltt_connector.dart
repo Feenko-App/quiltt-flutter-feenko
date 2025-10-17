@@ -404,8 +404,9 @@ class _FeenkoToolbarState extends State<_FeenkoToolbar> {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      top: _isVisible ? 0 : -48,
+      top: _isVisible ? 8 : -48,
       left: 0,
+      right: 0,
       child: widget.child,
     );
   }

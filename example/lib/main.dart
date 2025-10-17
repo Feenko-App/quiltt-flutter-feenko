@@ -58,6 +58,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var _connectionId = "No connection Id yet";
+
   _setConnectionId(String id) {
     setState(() {
       debugPrint("setConnectionId: $id");
@@ -66,16 +67,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _launchConnector() {
-
     QuilttConnectorConfiguration config = QuilttConnectorConfiguration(
         connectorId: "195rrkqwpw",
-        oauthRedirectUrl: "https://fynk.onelink.me/O6SK/lqr2imq9?af_force_deeplink=true&af_message=bank_sync");
+        oauthRedirectUrl:
+            "https://fynk.onelink.me/O6SK/lqr2imq9?af_force_deeplink=true&af_message=bank_sync");
 
     debugPrint(
         '_launchConnector: ${config.connectorId}, $config.oauthRedirectUrl');
     QuilttConnector quilttConnector = QuilttConnector();
     //quilttConnector.authenticate(token);
-    quilttConnector.connect(context, config, onEvent: (event) {
+    quilttConnector.connect(context, config,
+        toolbar: Center(
+          child: Image.asset(
+            'assets/feenko_sync.png',
+            height: 44,
+            fit: BoxFit.fitWidth,
+          ),
+        ), onEvent: (event) {
       debugPrint("onEvent: ${event.type} ${event.eventMetadata.connectorId}");
     }, onExit: (event) {
       debugPrint("onExit: ${event.type} ${event.eventMetadata.connectorId}");
