@@ -56,7 +56,7 @@ class QuilttConnector {
   }
 
   void _showWebView(BuildContext context, QuilttConnectorConfiguration config) {
-    final viewPadding = MediaQuery.of(context).viewPadding.bottom;
+    final viewPadding = MediaQuery.of(context).viewInsets.bottom;
 
     cupertino.showCupertinoSheet(
       useNestedNavigation: true,
