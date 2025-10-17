@@ -51,9 +51,15 @@ class QuilttConnector {
         onExitAbort: onExitAbort,
         onExitError: onExitError);
 
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return _webViewPage.build(context, token: sessionToken);
-    }));
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (BuildContext context) {
+        return _webViewPage.build(context,
+            token: sessionToken, connectionId: config.connectionId);
+      },
+    );
   }
 
   /// Reconnect to a connector
@@ -77,10 +83,15 @@ class QuilttConnector {
         onExitAbort: onExitAbort,
         onExitError: onExitError);
 
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return _webViewPage.build(context,
-          token: sessionToken, connectionId: config.connectionId);
-    }));
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (BuildContext context) {
+        return _webViewPage.build(context,
+            token: sessionToken, connectionId: config.connectionId);
+      },
+    );
   }
 }
 
