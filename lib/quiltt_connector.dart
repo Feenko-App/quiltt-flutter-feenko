@@ -52,12 +52,22 @@ class QuilttConnector {
         onExitAbort: onExitAbort,
         onExitError: onExitError);
 
+    _showWebView(context, config);
+  }
+
+  void _showWebView(BuildContext context, QuilttConnectorConfiguration config) {
+    final viewPadding = MediaQuery.of(context).viewPadding.bottom;
+
     cupertino.showCupertinoSheet(
       useNestedNavigation: true,
       enableDrag: false,
       context: context,
       pageBuilder: (BuildContext context) {
-        return _webViewPage.build(context, token: sessionToken);
+        return Padding(
+          padding: EdgeInsets.only(bottom: viewPadding),
+          child: _webViewPage.build(context,
+              token: sessionToken, connectionId: config.connectionId),
+        );
       },
     );
   }
@@ -83,15 +93,7 @@ class QuilttConnector {
         onExitAbort: onExitAbort,
         onExitError: onExitError);
 
-    cupertino.showCupertinoSheet(
-      useNestedNavigation: true,
-      enableDrag: false,
-      context: context,
-      pageBuilder: (BuildContext context) {
-        return _webViewPage.build(context,
-            token: sessionToken, connectionId: config.connectionId);
-      },
-    );
+    _showWebView(context, config);
   }
 }
 
@@ -348,17 +350,15 @@ class _WebViewPage {
     }
 
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            WebViewWidget(controller: controller),
-            if (toolbar != null)
-              _FeenkoToolbar(
-                controller: controller,
-                child: toolbar!,
-              ),
-          ],
-        ),
+      body: Stack(
+        children: [
+          WebViewWidget(controller: controller),
+          if (toolbar != null)
+            _FeenkoToolbar(
+              controller: controller,
+              child: toolbar!,
+            ),
+        ],
       ),
     );
   }
