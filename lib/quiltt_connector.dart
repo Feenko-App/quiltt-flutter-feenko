@@ -16,7 +16,6 @@ class QuilttConnector {
   late String connectionId;
   final _WebViewPage _webViewPage = _WebViewPage();
   final WebViewController controller = WebViewController();
-  Widget? toolbar;
 
   /// Pass token to authenticate, authenticate through UI if token is absent
   void authenticate(String token) {
@@ -36,6 +35,7 @@ class QuilttConnector {
   connect(
     BuildContext context,
     QuilttConnectorConfiguration config, {
+    Widget? toolbar,
     Function(ConnectorSDKOnEventCallback event)? onEvent,
     Function(ConnectorSDKOnEventExitCallback event)? onExit,
     Function(ConnectorSDKOnExitSuccessCallback event)? onExitSuccess,
@@ -76,6 +76,7 @@ class QuilttConnector {
   reconnect(
     BuildContext context,
     QuilttConnectorConfiguration config, {
+    Widget? toolbar,
     Function(ConnectorSDKOnEventCallback event)? onEvent,
     Function(ConnectorSDKOnEventExitCallback event)? onExit,
     Function(ConnectorSDKOnExitSuccessCallback event)? onExitSuccess,
