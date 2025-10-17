@@ -68,8 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
   _launchConnector() {
 
     QuilttConnectorConfiguration config = QuilttConnectorConfiguration(
-        connectorId: "connectorId",
-        oauthRedirectUrl: "quilttexample://open.flutter.app");
+        connectorId: "195rrkqwpw",
+        oauthRedirectUrl: "https://fynk.onelink.me/O6SK/lqr2imq9?af_force_deeplink=true&af_message=bank_sync");
 
     debugPrint(
         '_launchConnector: ${config.connectorId}, $config.oauthRedirectUrl');

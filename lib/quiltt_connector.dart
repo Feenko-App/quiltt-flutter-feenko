@@ -1,5 +1,6 @@
 library;
 
+import 'package:flutter/cupertino.dart' as cupertino;
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -51,13 +52,10 @@ class QuilttConnector {
         onExitAbort: onExitAbort,
         onExitError: onExitError);
 
-    showModalBottomSheet(
+    cupertino.showCupertinoSheet(
       context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (BuildContext context) {
-        return _webViewPage.build(context,
-            token: sessionToken, connectionId: config.connectionId);
+      pageBuilder: (BuildContext context) {
+        return _webViewPage.build(context, token: sessionToken);
       },
     );
   }
@@ -83,11 +81,9 @@ class QuilttConnector {
         onExitAbort: onExitAbort,
         onExitError: onExitError);
 
-    showModalBottomSheet(
+    cupertino.showCupertinoSheet(
       context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (BuildContext context) {
+      pageBuilder: (BuildContext context) {
         return _webViewPage.build(context,
             token: sessionToken, connectionId: config.connectionId);
       },
