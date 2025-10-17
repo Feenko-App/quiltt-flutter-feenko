@@ -53,6 +53,8 @@ class QuilttConnector {
         onExitError: onExitError);
 
     cupertino.showCupertinoSheet(
+      useNestedNavigation: true,
+      enableDrag: false,
       context: context,
       pageBuilder: (BuildContext context) {
         return _webViewPage.build(context, token: sessionToken);
@@ -82,6 +84,8 @@ class QuilttConnector {
         onExitError: onExitError);
 
     cupertino.showCupertinoSheet(
+      useNestedNavigation: true,
+      enableDrag: false,
       context: context,
       pageBuilder: (BuildContext context) {
         return _webViewPage.build(context,
